@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libtensorrtbuffer.so -o ../../../3rdparty/tensorrtbuffer/lib/libtensorrtbuffer.so CMakeFiles/tensorrtbuffer.dir/src/logger.cpp.o 
