@@ -46,7 +46,7 @@ class SuperPointGlue
 	{
 		image1 = std::make_shared<sensor_msgs::CompressedImage>(*msg);
 		if (image1 && image2)
-		{
+		{	
 			Eigen::Matrix<double,259,Eigen::Dynamic> feature_points1;
 			Eigen::Matrix<double,259,Eigen::Dynamic> feature_points2;
 			cv::Mat Im1(cv::imdecode(image1->data, cv::IMREAD_GRAYSCALE));
@@ -72,7 +72,11 @@ class SuperPointGlue
 				ROS_INFO("Failed when extracting features from second Image\n");
 				return;
 			}
-
+			if(feature_points1.cols()<=0 || feature_points2.cols()<=0)
+			{
+				ROS_INFO("No features in frame!! Skipping this frame!\n");
+				return;
+			}
 			superglue->matching_points(feature_points1, feature_points2, _matches);
 			auto end = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
@@ -88,11 +92,10 @@ class SuperPointGlue
 			for(size_t i = 0; i < feature_points2.cols(); i++)
 			{
 				double score = feature_points2(0,i);
-				double x = feature_points1(1,i);
-				double y = feature_points1(2,i);
+				double x = feature_points2(1,i);
+				double y = feature_points2(2,i);
 				keypoints2.emplace_back(x,y, 8, -1, score);
-			}	
-
+			}
 			VisualizeMatching(Im1,keypoints1, Im2, keypoints2, _matches, match_image,duration.count());
 			cv::imshow("Feature Matching",match_image);
 			cv::waitKey(1);
