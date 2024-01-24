@@ -112,10 +112,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES superpoint_superglue
-#  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+  INCLUDE_DIRS include 3rdparty/tensorrtbuffer/include
+   LIBRARIES superpoint_superglue_lib
+   CATKIN_DEPENDS roscpp
+   DEPENDS CUDA 
 )
 
 ###########
@@ -133,10 +133,11 @@ include_directories(
   ${EIGEN3_INCLUDE_DIRS}
   ${CUDA_INCLUDE_DIRS}
   ${YAML_CPP_INCLUDE_DIR}
+  3rdparty/tensorrtbuffer/include
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}_lib SHARED
+add_library(superpoint_superglue_lib SHARED
    src/super_point.cpp
    src/super_glue.cpp
 )
@@ -162,7 +163,7 @@ add_library(${PROJECT_NAME}_lib SHARED
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(${PROJECT_NAME}_lib
+ target_link_libraries(superpoint_superglue_lib
    ${catkin_LIBRARIES}
    nvinfer
    nvonnxparser
