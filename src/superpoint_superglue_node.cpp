@@ -19,8 +19,8 @@ class SuperPointGlue
 	int width,height;
 	SuperPointGlue()
 	{
-		std::string config_path = "/home/race8/ws_catkin/src/superpoint_superglue/config/config.yaml";
-		std::string model_dir =  "/home/race8/ws_catkin/src/superpoint_superglue/weights/";
+		std::string config_path = "/home/pranav/catkin_ws/src/superpoint_superglue/config/config.yaml";
+		std::string model_dir =  "/home/pranav/catkin_ws/src/superpoint_superglue/weights/";
 		Configs configs(config_path, model_dir);
 		width = configs.superglue_config.image_width;
 		height = configs.superglue_config.image_height;
